@@ -48,6 +48,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+//     AFTER DISCUSSION
+//     QString fileName = QFileDialog::getOpenFileName(this,"Open File","*.txt");
+//     QFile file(fileName);
+//     file.open(QIODevice::ReadOnly);
+
+//     file.readLine();
+    
+    
     QFile file(":/new/prefix1/data (1).txt");
     file.open(QIODevice::ReadOnly);
 
@@ -99,6 +107,8 @@ void MainWindow::on_pushButton_3_clicked()
     if (files.length()>( ui->tableView->model()->rowCount()))
     {
         int i = 1;
+//         AFTER DISCUSSION
+//         QString fileName = QFileDialog::getOpenFileName(this,"*.txt");
         QString fileName = QFileDialog::getOpenFileName(this,":/new/prefix1/data (1).txt");
         while(files.length() > ui->tableView->model()->rowCount())
         {
@@ -109,6 +119,9 @@ void MainWindow::on_pushButton_3_clicked()
             arr.close();
             a.append((x.GetFilename()+"|"+x.GetOwner()+"|"+x.GetSize()+"|"+x.GetLast()+
                       "|"+x.GetPermission()).toUtf8());
+            
+//             AFTER DISCUSSION
+//             a.append("\n");
 
             if (arr.open(QIODevice::WriteOnly))
             {
@@ -121,27 +134,6 @@ void MainWindow::on_pushButton_3_clicked()
             i++;
         }
     }
-    else if(files.length()<(ui->tableView->model()->rowCount()))
-    {
-        int i = 1;
-        QString fileName = QFileDialog::getOpenFileName(this,":/new/prefix1/data (1).txt");
-        while(files.length() > ui->tableView->model()->rowCount())
-        {
-            File x = files.at(files.length()-i);
-            QFile arr(fileName);
-            arr.open(QIODevice::ReadOnly);
-            QByteArray a = arr.readAll();
-            arr.close();
-            if (arr.open(QIODevice::WriteOnly))
-            {
-                arr.write(a);
-            }
-            arr.close();
-            model->insertRows(ui->tableView->model()->rowCount()-1, 1);
-            model->setData(model->index(ui->tableView->model()->rowCount()-1, 0), x.GetFilename());
-            arr.close();
-            i++;
-        }
-    }
+    
 }
 
